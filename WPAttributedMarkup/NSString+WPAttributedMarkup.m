@@ -89,19 +89,12 @@ NSString* kWPAttributedMarkupLinkName = @"WPAttributedMarkupLinkName";
 
 -(void)setFont:(UIFont*)font range:(NSRange)range onAttributedString:(NSMutableAttributedString*)as
 {
-    [self setFontName:font.fontName size:font.pointSize range:range onAttributedString:as];
-}
-
-
--(void)setFontName:(NSString*)fontName size:(CGFloat)size range:(NSRange)range onAttributedString:(NSMutableAttributedString*)as
-{
     // kCTFontAttributeName
-    CTFontRef aFont = CTFontCreateWithName((__bridge CFStringRef)fontName, size, NULL);
+    UIFont *aFont = font;
     if (aFont)
     {
         [as removeAttribute:(__bridge NSString*)kCTFontAttributeName range:range]; // Work around for Apple leak
-        [as addAttribute:(__bridge NSString*)kCTFontAttributeName value:(__bridge id)aFont range:range];
-        CFRelease(aFont);
+        [as addAttribute:(__bridge NSString*)kCTFontAttributeName value:aFont range:range];
     }
 }
 
